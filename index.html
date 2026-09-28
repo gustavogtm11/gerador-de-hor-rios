@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Studio Claudia - 5 Dias 3x3</title>
+<title>Studio Claudia - Salvar no iPhone</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{ --rose:#B67A6A; --rose-dark:#7A4E45; --beige:#F6ECE7; --text:#4A332E; }
@@ -29,7 +29,6 @@
   @media(max-width:900px){#art-canvas{max-width:100%;}}
   .base-img{width:100%; height:100%; object-fit:cover; object-position:center top; display:block;}
 
-  /* CARD - AJUSTADO PARA NÃO VAZAR */
   .new-card{
     position:absolute; left:52.8%; top:38.8%; right:3.2%; bottom:3.6%;
     background:#FFFCFA; border:1.4px solid #C9A090; border-radius:20px;
@@ -43,32 +42,12 @@
   .card-header .htitle{display:flex; flex-direction:column; line-height:1.05;}
   .card-header .htitle span{font-size:10.5px; font-weight:700; letter-spacing:2px; color:#8A6A5E; text-transform:uppercase;}
 
-  /* 5 DIAS - CADA UM 3x3 */
   .days{flex:1; display:flex; flex-direction:column; gap:5px; justify-content:space-between; min-height:0;}
-
-  .day-block{
-    flex:1; min-height:0; background:#F6ECE7; border-radius:12px;
-    padding:6px 8px; display:flex; flex-direction:column; gap:4px;
-  }
-  .day-label{
-    font-size:11px; font-weight:800; letter-spacing:.6px; color:#7A4E45;
-    text-transform:uppercase; line-height:1; flex-shrink:0;
-  }
-
-  /* GRID 3x3 COM GAP PEQUENO - NÃO QUEBRA */
-  .grid{
-    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); grid-template-rows:repeat(3, minmax(0,1fr));
-    gap:4px; flex:1; min-height:0; width:100%;
-  }
-  .chip{
-    width:100%; height:100%; min-width:0; min-height:0;
-    background:white; border:1px solid #E8D5CD; border-radius:7px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:11px; font-weight:700; color:#4A332E; line-height:1;
-    padding:2px; text-align:center; white-space:nowrap; overflow:hidden;
-  }
+  .day-block{flex:1; min-height:0; background:#F6ECE7; border-radius:12px; padding:6px 8px; display:flex; flex-direction:column; gap:4px;}
+  .day-label{font-size:11px; font-weight:800; letter-spacing:.6px; color:#7A4E45; text-transform:uppercase; line-height:1; flex-shrink:0;}
+  .grid{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); grid-template-rows:repeat(3, minmax(0,1fr)); gap:4px; flex:1; min-height:0; width:100%;}
+  .chip{width:100%; height:100%; min-width:0; min-height:0; background:white; border:1px solid #E8D5CD; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#4A332E; line-height:1; padding:2px; text-align:center; white-space:nowrap; overflow:hidden;}
   .chip.empty{background:#EDE0DA; border:1px dashed #D8C4BB; color:#B8A39B; font-weight:500; font-size:10px;}
-
   @media(max-width:900px){
     .new-card{left:52.5%; right:3%; top:38.5%; bottom:3.5%; padding:8px 7px 7px; border-radius:16px;}
     .card-header .icon{width:26px; height:26px;}
@@ -80,23 +59,41 @@
     .chip{font-size:10px; border-radius:6px;}
     .chip.empty{font-size:9px;}
   }
+
+  /* MODAL IPHONE - SALVAR NA FOTOTECA */
+  #ios-modal{
+    display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.85);
+    flex-direction:column; align-items:center; justify-content:center; padding:20px;
+  }
+  #ios-modal.show{display:flex;}
+  #ios-modal .modal-box{
+    background:white; border-radius:20px; padding:18px; width:100%; max-width:380px;
+    display:flex; flex-direction:column; gap:14px; max-height:90vh; overflow:auto;
+  }
+  #ios-modal .modal-title{font-size:16px; font-weight:800; color:#4A332E; text-align:center;}
+  #ios-modal .modal-sub{font-size:12px; color:#8A6A5E; text-align:center; line-height:1.4;}
+  #ios-modal img{width:100%; border-radius:12px; border:1px solid #E8D5CD; display:block;}
+  #ios-modal .steps{background:#FFF8F5; border:1px solid #F0E2DA; border-radius:12px; padding:12px; font-size:11px; line-height:1.5; color:#5A3D36;}
+  #ios-modal .steps b{color:var(--rose-dark);}
+  #ios-modal .btn-close{width:100%; padding:14px; border-radius:14px; border:none; background:#4A332E; color:white; font-family:Montserrat; font-size:14px; font-weight:700; cursor:pointer;}
+  #ios-modal .btn-wa-modal{width:100%; padding:14px; border-radius:14px; border:none; background:#25D366; color:white; font-family:Montserrat; font-size:14px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;}
 </style>
 </head>
 <body>
 <div class="app">
   <aside class="editor">
     <h1>TER a SÁB - 3x3</h1>
-    <p class="sub">Só <strong>Ter. Qua. Qui. Sex. Sab.</strong> • 3 linhas x 3 colunas • Gap pequeno • Fonte template</p>
+    <p class="sub">Só <strong>Ter. Qua. Qui. Sex. Sab.</strong> • 3x3 • iPhone salva na fototeca</p>
     <div class="field"><label>TER.</label><input id="ter" type="text" value="08:00, 09:00, 10:00, 14:00, 15:00, 16:00"></div>
     <div class="field"><label>QUA.</label><input id="qua" type="text" value="08:30, 09:30, 10:30, 14:30, 15:30"></div>
     <div class="field"><label>QUI.</label><input id="qui" type="text" value="08:00, 09:00, 10:00, 11:00, 14:00, 15:00, 16:00"></div>
     <div class="field"><label>SEX.</label><input id="sex" type="text" value="08:00, 09:30, 14:00, 15:30"></div>
     <div class="field"><label>SÁB.</label><input id="sab" type="text" value="08:00, 09:00, 10:00"></div>
     <div class="buttons">
-      <button id="btn-dl" class="btn btn-dl">⬇️ Baixar HD - Igual Preview</button>
-      <button id="btn-wa" class="btn btn-wa">📲 WhatsApp</button>
+      <button id="btn-dl" class="btn btn-dl">⬇️ Baixar Imagem HD</button>
+      <button id="btn-wa" class="btn btn-wa">📲 Compartilhar WhatsApp</button>
     </div>
-    <p style="font-size:10px; color:#A08A82; text-align:center; margin-top:10px;">Fonte 11px • Gap 4px • 3x3 sem quebrar • 1080p</p>
+    <p style="font-size:10px; color:#A08A82; text-align:center; margin-top:10px;">No iPhone: segure a imagem → Salvar na Fototeca</p>
   </aside>
 
   <main class="preview-wrapper">
@@ -121,6 +118,22 @@
       </div>
     </div>
   </main>
+</div>
+
+<!-- MODAL PARA IPHONE SALVAR -->
+<div id="ios-modal">
+  <div class="modal-box">
+    <div class="modal-title">📸 Salvar no iPhone</div>
+    <div class="modal-sub">Sua imagem em alta está pronta! No iPhone faça assim:</div>
+    <img id="modal-img" src="" alt="Horários">
+    <div class="steps">
+      <b>1.</b> Segure o dedo em cima da imagem acima<br>
+      <b>2.</b> Toque em <b>"Adicionar às Fotos"</b> ou <b>"Salvar na Fototeca"</b><br>
+      <b>3.</b> Depois abra o WhatsApp e anexe a imagem 💖
+    </div>
+    <button class="btn-wa-modal" id="btn-open-wa">📲 Abrir WhatsApp</button>
+    <button class="btn-close" id="btn-close-modal">Fechar</button>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -150,116 +163,95 @@ function render(){
 }
 cfg.forEach(c=> document.getElementById(c.id).addEventListener('input', render));
 
+function isIOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
 async function captureHD(){
   const orig=document.getElementById('art-canvas'); render();
-  // LARGURA FIXA DO TEMPLATE - 540px igual ao preview desktop, para ficar idêntico
   const TEMPLATE_W = 540;
-  const TEMPLATE_H = Math.round(TEMPLATE_W * 1.5); // 810px - proporção 1024/1536
-  
+  const TEMPLATE_H = Math.round(TEMPLATE_W * 1.5);
   const wrap=document.createElement('div');
   wrap.style.position='fixed'; wrap.style.left='0'; wrap.style.top='0';
   wrap.style.width=TEMPLATE_W+'px'; wrap.style.height=TEMPLATE_H+'px';
   wrap.style.overflow='hidden'; wrap.style.zIndex='-9999'; wrap.style.opacity='0';
-  wrap.style.pointerEvents='none'; wrap.style.background='#FDF6F1';
-  
+  wrap.style.background='#FDF6F1';
   const clone=orig.cloneNode(true);
-  clone.id='clone-hd';
   clone.style.position='relative'; clone.style.left='0'; clone.style.top='0';
   clone.style.width=TEMPLATE_W+'px'; clone.style.height=TEMPLATE_H+'px';
-  clone.style.maxWidth='none'; clone.style.maxHeight='none';
-  clone.style.margin='0'; clone.style.boxShadow='none'; clone.style.borderRadius='0';
-  clone.style.transform='none';
-  
+  clone.style.maxWidth='none'; clone.style.margin='0'; clone.style.boxShadow='none'; clone.style.borderRadius='0';
   wrap.appendChild(clone); document.body.appendChild(wrap);
-  
   await document.fonts.ready;
   const img=clone.querySelector('.base-img');
   if(img && !img.complete) await new Promise(r=>{img.onload=r; img.onerror=r; setTimeout(r,1000);});
   await new Promise(r=>setTimeout(r,350));
-  
-  // SCALE 3 = 1620x2430 - HD mas com mesma proporção exata do template
-  const canvas=await html2canvas(clone,{
-    scale:3,
-    useCORS:true,
-    allowTaint:false,
-    backgroundColor:'#FDF6F1',
-    width:TEMPLATE_W,
-    height:TEMPLATE_H,
-    scrollX:0,
-    scrollY:0,
-    logging:false,
-    imageTimeout:0
-  });
-  document.body.removeChild(wrap);
-  return canvas;
+  const canvas=await html2canvas(clone,{scale:3, useCORS:true, backgroundColor:'#FDF6F1', width:TEMPLATE_W, height:TEMPLATE_H, scrollX:0, scrollY:0, logging:false});
+  document.body.removeChild(wrap); return canvas;
 }
-async function dl(){
-  const b=document.getElementById('btn-dl'); b.disabled=true; b.textContent='Gerando...';
-  try{ const c=await captureHD(); const a=document.createElement('a'); a.download='horarios-ter-a-sab-3x3.png'; a.href=c.toDataURL('image/png',1.0); a.click(); }
-  catch(e){alert(e.message);} finally{b.disabled=false; b.textContent='⬇️ Baixar HD - Igual Preview';}
+
+function showIOSModal(dataUrl){
+  document.getElementById('modal-img').src = dataUrl;
+  document.getElementById('ios-modal').classList.add('show');
 }
-async function wa(){
+function closeIOSModal(){
+  document.getElementById('ios-modal').classList.remove('show');
+}
+document.getElementById('btn-close-modal').addEventListener('click', closeIOSModal);
+document.getElementById('btn-open-wa').addEventListener('click', ()=>{
+  window.open('https://wa.me/?text='+encodeURIComponent('Meus horários Ter. a Sáb. 💖 - Studio Claudia Tavares'), '_blank');
+});
+document.getElementById('ios-modal').addEventListener('click', (e)=>{ if(e.target.id==='ios-modal') closeIOSModal(); });
+
+async function handleDownload(){
+  const b=document.getElementById('btn-dl'); b.disabled=true; b.textContent='Gerando HD...';
+  try{
+    const c=await captureHD();
+    const dataUrl=c.toDataURL('image/png',1.0);
+    
+    if(isIOS()){
+      // iPhone: mostra modal com imagem para salvar na fototeca
+      showIOSModal(dataUrl);
+    } else {
+      // Android/Desktop: baixa normal
+      const a=document.createElement('a');
+      a.download='horarios-claudia-ter-a-sab.png';
+      a.href=dataUrl;
+      a.click();
+    }
+  }catch(e){alert('Erro: '+e.message);} finally{b.disabled=false; b.textContent='⬇️ Baixar Imagem HD';}
+}
+
+async function handleWhatsApp(){
   const b=document.getElementById('btn-wa'); b.disabled=true; b.textContent='Preparando...';
   try{
     const c=await captureHD();
+    const dataUrl=c.toDataURL('image/png',1.0);
     
-    // Detecta iPhone - iOS tem bug com share de arquivos
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    
-    if(!isIOS && navigator.canShare){
+    if(isIOS()){
+      // iPhone sempre mostra modal para salvar
+      showIOSModal(dataUrl);
+    } else {
+      // Android tenta compartilhar com arquivo
       try{
         const blob=await new Promise(r=>c.toBlob(r,'image/png',1.0));
         const file=new File([blob],'horarios.png',{type:'image/png'});
-        if(navigator.canShare({files:[file]})){
-          await navigator.share({files:[file], title:'Horários Studio Claudia', text:'Meus horários Ter. a Sáb. 💖'});
-          b.disabled=false; b.textContent='📲 WhatsApp'; return;
+        if(navigator.canShare && navigator.canShare({files:[file]})){
+          await navigator.share({files:[file], title:'Horários', text:'Meus horários Ter. a Sáb. 💖 Studio Claudia Tavares'});
+          return;
         }
-      }catch(err){
-        console.log('Share API falhou, usando fallback iOS:', err.name);
-        // Se for erro de permissão do iOS, cai no fallback abaixo
-        if(err.name === 'AbortError'){ b.disabled=false; b.textContent='📲 WhatsApp'; return; }
-      }
-    }
-    
-    // FALLBACK PARA IPHONE - Baixa e abre WhatsApp (sem erro)
-    const dataUrl = c.toDataURL('image/png',1.0);
-    
-    // No iPhone, download via link não funciona bem, então abre imagem em nova aba
-    if(isIOS){
-      // Cria link para baixar
-      const a=document.createElement('a');
-      a.href=dataUrl;
-      a.download='horarios-claudia.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      // Mensagem amigável - sem abrir wa.me automático que causa bloqueio
-      setTimeout(()=>{
-        alert('✅ Imagem baixada! Agora é só abrir o WhatsApp e anexar a imagem na conversa.');
-      }, 500);
-    } else {
+      }catch(err){ console.log('Share falhou, fallback download', err); }
+      // Fallback Android
       const a=document.createElement('a');
       a.download='horarios-claudia.png';
       a.href=dataUrl;
       a.click();
-      setTimeout(()=>window.open(`https://wa.me/?text=${encodeURIComponent('Meus horários Ter. a Sáb. 💖 - Studio Claudia Tavares')}`,'_blank'),800);
+      setTimeout(()=>window.open('https://wa.me/?text='+encodeURIComponent('Meus horários Ter. a Sáb. 💖'),'_blank'),800);
     }
-  }catch(e){
-    console.error(e);
-    if(e.name !== 'AbortError'){
-      // Último fallback - tenta abrir imagem
-      try{
-        const c=await captureHD();
-        const dataUrl=c.toDataURL('image/png',1.0);
-        window.open(dataUrl, '_blank');
-      }catch(e2){
-        alert('Erro: '+e.message);
-      }
-    }
-  } finally{b.disabled=false; b.textContent='📲 WhatsApp';}
+  }catch(e){ if(e.name!=='AbortError') alert('Erro: '+e.message); } finally{b.disabled=false; b.textContent='📲 Compartilhar WhatsApp';}
 }
-document.getElementById('btn-dl').addEventListener('click', dl);
-document.getElementById('btn-wa').addEventListener('click', wa);
+
+document.getElementById('btn-dl').addEventListener('click', handleDownload);
+document.getElementById('btn-wa').addEventListener('click', handleWhatsApp);
 render();
 </script>
 </body>
