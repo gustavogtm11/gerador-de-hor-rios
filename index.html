@@ -201,11 +201,62 @@ async function dl(){
 async function wa(){
   const b=document.getElementById('btn-wa'); b.disabled=true; b.textContent='Preparando...';
   try{
-    const c=await captureHD(); const blob=await new Promise(r=>c.toBlob(r,'image/png',1.0));
-    const file=new File([blob],'horarios.png',{type:'image/png'});
-    if(navigator.canShare && navigator.canShare({files:[file]})) await navigator.share({files:[file], title:'Horários', text:'Meus horários Ter. a Sáb. 💖'});
-    else{ const a=document.createElement('a'); a.download='horarios.png'; a.href=c.toDataURL('image/png',1.0); a.click(); }
-  }catch(e){ if(e.name!=='AbortError') alert(e.message); } finally{b.disabled=false; b.textContent='📲 WhatsApp';}
+    const c=await captureHD();
+    
+    // Detecta iPhone - iOS tem bug com share de arquivos
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
+    if(!isIOS && navigator.canShare){
+      try{
+        const blob=await new Promise(r=>c.toBlob(r,'image/png',1.0));
+        const file=new File([blob],'horarios.png',{type:'image/png'});
+        if(navigator.canShare({files:[file]})){
+          await navigator.share({files:[file], title:'Horários Studio Claudia', text:'Meus horários Ter. a Sáb. 💖'});
+          b.disabled=false; b.textContent='📲 WhatsApp'; return;
+        }
+      }catch(err){
+        console.log('Share API falhou, usando fallback iOS:', err.name);
+        // Se for erro de permissão do iOS, cai no fallback abaixo
+        if(err.name === 'AbortError'){ b.disabled=false; b.textContent='📲 WhatsApp'; return; }
+      }
+    }
+    
+    // FALLBACK PARA IPHONE - Baixa e abre WhatsApp (sem erro)
+    const dataUrl = c.toDataURL('image/png',1.0);
+    
+    // No iPhone, download via link não funciona bem, então abre imagem em nova aba
+    if(isIOS){
+      // Cria link para baixar
+      const a=document.createElement('a');
+      a.href=dataUrl;
+      a.download='horarios-claudia.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      // Mensagem amigável - sem abrir wa.me automático que causa bloqueio
+      setTimeout(()=>{
+        alert('✅ Imagem baixada! Agora é só abrir o WhatsApp e anexar a imagem na conversa.');
+      }, 500);
+    } else {
+      const a=document.createElement('a');
+      a.download='horarios-claudia.png';
+      a.href=dataUrl;
+      a.click();
+      setTimeout(()=>window.open(`https://wa.me/?text=${encodeURIComponent('Meus horários Ter. a Sáb. 💖 - Studio Claudia Tavares')}`,'_blank'),800);
+    }
+  }catch(e){
+    console.error(e);
+    if(e.name !== 'AbortError'){
+      // Último fallback - tenta abrir imagem
+      try{
+        const c=await captureHD();
+        const dataUrl=c.toDataURL('image/png',1.0);
+        window.open(dataUrl, '_blank');
+      }catch(e2){
+        alert('Erro: '+e.message);
+      }
+    }
+  } finally{b.disabled=false; b.textContent='📲 WhatsApp';}
 }
 document.getElementById('btn-dl').addEventListener('click', dl);
 document.getElementById('btn-wa').addEventListener('click', wa);
