@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Studio Claudia - Salvar no iPhone</title>
+<title>Studio Claudia - Formatação Automática</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{ --rose:#B67A6A; --rose-dark:#7A4E45; --beige:#F6ECE7; --text:#4A332E; }
@@ -20,6 +20,7 @@
   .field input{width:100%; padding:11px 12px; border:1.5px solid #E8D5CD; border-radius:12px; font-family:Montserrat; font-size:13.5px; background:#FFFCFA; outline:none;}
   .field input:focus{border-color:var(--rose); background:white;}
   @media(max-width:900px){.field input{font-size:16px; min-height:44px;}}
+  .hint{font-size:10px; color:#A08A82; margin-top:4px; font-style:italic;}
   .buttons{display:flex; flex-direction:column; gap:10px; margin-top:16px;}
   .btn{width:100%; padding:14px; border-radius:14px; border:none; font-family:Montserrat; font-size:13.5px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;}
   .btn-dl{background:var(--rose); color:white;} .btn-wa{background:#25D366; color:white;} .btn:disabled{opacity:.6;}
@@ -34,14 +35,10 @@
     background:#FFFCFA; border:1.4px solid #C9A090; border-radius:20px;
     padding:12px 10px 10px; display:flex; flex-direction:column; overflow:hidden;
   }
-  .card-header{
-    display:flex; align-items:center; gap:9px; padding-bottom:8px; margin-bottom:6px;
-    flex-shrink:0; border-bottom:1px solid #EDE2DC;
-  }
+  .card-header{display:flex; align-items:center; gap:9px; padding-bottom:8px; margin-bottom:6px; flex-shrink:0; border-bottom:1px solid #EDE2DC;}
   .card-header .icon{width:30px; height:30px; flex-shrink:0;}
   .card-header .htitle{display:flex; flex-direction:column; line-height:1.05;}
   .card-header .htitle span{font-size:10.5px; font-weight:700; letter-spacing:2px; color:#8A6A5E; text-transform:uppercase;}
-
   .days{flex:1; display:flex; flex-direction:column; gap:5px; justify-content:space-between; min-height:0;}
   .day-block{flex:1; min-height:0; background:#F6ECE7; border-radius:12px; padding:6px 8px; display:flex; flex-direction:column; gap:4px;}
   .day-label{font-size:11px; font-weight:800; letter-spacing:.6px; color:#7A4E45; text-transform:uppercase; line-height:1; flex-shrink:0;}
@@ -60,16 +57,9 @@
     .chip.empty{font-size:9px;}
   }
 
-  /* MODAL IPHONE - SALVAR NA FOTOTECA */
-  #ios-modal{
-    display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.85);
-    flex-direction:column; align-items:center; justify-content:center; padding:20px;
-  }
+  #ios-modal{display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.85); flex-direction:column; align-items:center; justify-content:center; padding:20px;}
   #ios-modal.show{display:flex;}
-  #ios-modal .modal-box{
-    background:white; border-radius:20px; padding:18px; width:100%; max-width:380px;
-    display:flex; flex-direction:column; gap:14px; max-height:90vh; overflow:auto;
-  }
+  #ios-modal .modal-box{background:white; border-radius:20px; padding:18px; width:100%; max-width:380px; display:flex; flex-direction:column; gap:14px; max-height:90vh; overflow:auto;}
   #ios-modal .modal-title{font-size:16px; font-weight:800; color:#4A332E; text-align:center;}
   #ios-modal .modal-sub{font-size:12px; color:#8A6A5E; text-align:center; line-height:1.4;}
   #ios-modal img{width:100%; border-radius:12px; border:1px solid #E8D5CD; display:block;}
@@ -83,17 +73,18 @@
 <div class="app">
   <aside class="editor">
     <h1>TER a SÁB - 3x3</h1>
-    <p class="sub">Só <strong>Ter. Qua. Qui. Sex. Sab.</strong> • 3x3 • iPhone salva na fototeca</p>
-    <div class="field"><label>TER.</label><input id="ter" type="text" value=""></div>
-    <div class="field"><label>QUA.</label><input id="qua" type="text" value=""></div>
+    <p class="sub">Só <strong>Ter. Qua. Qui. Sex. Sab.</strong> • Digite <b>9</b> vira <b>09:00</b> • <b>9:30</b> vira <b>09:30</b></p>
+    <div class="field"><label>TER.</label><input id="ter" type="text" placeholder="Ex: 9, 9:30, 10" value="8, 9, 10, 14, 15, 16"></div>
+    <div class="field"><label>QUA.</label><input id="qua" type="text" placeholder="Ex: 8:30, 9:30" value="8:30, 9:30, 10:30, 14:30, 15:30"></div>
     <div class="field"><label>QUI.</label><input id="qui" type="text" value=""></div>
     <div class="field"><label>SEX.</label><input id="sex" type="text" value=""></div>
     <div class="field"><label>SÁB.</label><input id="sab" type="text" value=""></div>
+    <div class="hint">💡 Dica: digite só 9 → vira 09:00 | 9:30 → 09:30 | 10 → 10:00 | 14h → 14:00</div>
     <div class="buttons">
-      <button id="btn-dl" class="btn btn-dl">⬇️ Baixar Imagem HD</button>
+      <button id="btn-dl" class="btn btn-dl">⬇ Baixar Imagem HD</button>
       <button id="btn-wa" class="btn btn-wa">📲 Compartilhar WhatsApp</button>
     </div>
-    <p style="font-size:10px; color:#A08A82; text-align:center; margin-top:10px;">No iPhone: segure a imagem → Salvar na Fototeca</p>
+    <p style="font-size:10px; color:#A08A82; text-align:center; margin-top:10px;">Formatação automática • 3x3 • Sem vazar • HD</p>
   </aside>
 
   <main class="preview-wrapper">
@@ -120,11 +111,10 @@
   </main>
 </div>
 
-<!-- MODAL PARA IPHONE SALVAR -->
 <div id="ios-modal">
   <div class="modal-box">
     <div class="modal-title">📸 Salvar no iPhone</div>
-    <div class="modal-sub">Sua imagem em alta está pronta! No iPhone faça assim:</div>
+    <div class="modal-sub">Sua imagem em alta está pronta!</div>
     <img id="modal-img" src="" alt="Horários">
     <div class="steps">
       <b>1.</b> Segure o dedo em cima da imagem acima<br>
@@ -145,7 +135,57 @@ const cfg=[
   {id:'sex', label:'Sex.'},
   {id:'sab', label:'Sab.'},
 ];
-function parse(s){return s.split(',').map(x=>x.trim()).filter(Boolean).slice(0,9);}
+
+// NOVA FUNÇÃO: Formata automaticamente 09 -> 09:00, 9:30 -> 09:30, 10 -> 10:00
+function normalizeTime(input){
+  if(!input) return '';
+  let s = String(input).trim().toLowerCase();
+  if(!s) return '';
+  
+  // Troca h por : (ex: 14h30 -> 14:30, 14h -> 14:00)
+  s = s.replace(/h/g, ':');
+  // Remove espaços
+  s = s.replace(/\s+/g, '');
+  
+  // Se for só número: 9, 09, 10, 14
+  if(/^(\d{1,2})$/.test(s)){
+    let h = parseInt(s, 10);
+    if(isNaN(h) || h < 0 || h > 23) return s;
+    return String(h).padStart(2,'0') + ':00';
+  }
+  
+  // Se for hora:minuto: 9:30, 09:30, 9:3, 10:00, 9:00
+  const match = s.match(/^(\d{1,2}):(\d{1,2})$/);
+  if(match){
+    let h = parseInt(match[1], 10);
+    let m = parseInt(match[2], 10);
+    if(isNaN(h) || isNaN(m) || h < 0 || h > 23 || m < 0 || m > 59) return s;
+    return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+  }
+  
+  // Se já estiver no formato HH:MM mas sem zero: 9:5 -> 09:05
+  // Já coberto acima
+  
+  // Se tiver algo como 9: -> 09:00
+  const match2 = s.match(/^(\d{1,2}):$/);
+  if(match2){
+    let h = parseInt(match2[1], 10);
+    if(!isNaN(h) && h >=0 && h <=23) return String(h).padStart(2,'0') + ':00';
+  }
+  
+  // Retorna original se não conseguiu formatar
+  return s;
+}
+
+function parse(s){
+  if(!s) return [];
+  return s.split(',').map(x=>{
+    const trimmed = x.trim();
+    if(!trimmed) return '';
+    return normalizeTime(trimmed);
+  }).filter(Boolean).slice(0,9);
+}
+
 function render(){
   const wrap=document.getElementById('days'); wrap.innerHTML='';
   cfg.forEach(c=>{
@@ -193,9 +233,7 @@ function showIOSModal(dataUrl){
   document.getElementById('modal-img').src = dataUrl;
   document.getElementById('ios-modal').classList.add('show');
 }
-function closeIOSModal(){
-  document.getElementById('ios-modal').classList.remove('show');
-}
+function closeIOSModal(){ document.getElementById('ios-modal').classList.remove('show'); }
 document.getElementById('btn-close-modal').addEventListener('click', closeIOSModal);
 document.getElementById('btn-open-wa').addEventListener('click', ()=>{
   window.open('https://wa.me/?text='+encodeURIComponent('Meus horários Ter. a Sáb. 💖 - Studio Claudia Tavares'), '_blank');
@@ -206,32 +244,28 @@ async function handleDownload(){
   const b=document.getElementById('btn-dl'); b.disabled=true; b.textContent='Gerando HD...';
   try{
     const c=await captureHD();
-    const dataUrl=c.toDataURL('image/png',1.0);
-    
+    const blob = await new Promise(r=>c.toBlob(r,'image/png',1.0));
+    const blobUrl = URL.createObjectURL(blob);
     if(isIOS()){
-      // iPhone: mostra modal com imagem para salvar na fototeca
-      showIOSModal(dataUrl);
+      showIOSModal(blobUrl);
     } else {
-      // Android/Desktop: baixa normal
       const a=document.createElement('a');
       a.download='horarios-claudia-ter-a-sab.png';
-      a.href=dataUrl;
+      a.href=blobUrl;
       a.click();
+      setTimeout(()=>URL.revokeObjectURL(blobUrl), 1000);
     }
-  }catch(e){alert('Erro: '+e.message);} finally{b.disabled=false; b.textContent='⬇️ Baixar Imagem HD';}
+  }catch(e){alert('Erro: '+e.message);} finally{b.disabled=false; b.textContent='⬇ Baixar Imagem HD';}
 }
 
 async function handleWhatsApp(){
   const b=document.getElementById('btn-wa'); b.disabled=true; b.textContent='Preparando...';
   try{
     const c=await captureHD();
-    const dataUrl=c.toDataURL('image/png',1.0);
-    
     if(isIOS()){
-      // iPhone sempre mostra modal para salvar
-      showIOSModal(dataUrl);
+      const blob = await new Promise(r=>c.toBlob(r,'image/png',1.0));
+      showIOSModal(URL.createObjectURL(blob));
     } else {
-      // Android tenta compartilhar com arquivo
       try{
         const blob=await new Promise(r=>c.toBlob(r,'image/png',1.0));
         const file=new File([blob],'horarios.png',{type:'image/png'});
@@ -239,13 +273,14 @@ async function handleWhatsApp(){
           await navigator.share({files:[file], title:'Horários', text:'Meus horários Ter. a Sáb. 💖 Studio Claudia Tavares'});
           return;
         }
-      }catch(err){ console.log('Share falhou, fallback download', err); }
-      // Fallback Android
+      }catch(err){ console.log('Share falhou', err); }
+      const blob = await new Promise(r=>c.toBlob(r,'image/png',1.0));
+      const blobUrl=URL.createObjectURL(blob);
       const a=document.createElement('a');
       a.download='horarios-claudia.png';
-      a.href=dataUrl;
+      a.href=blobUrl;
       a.click();
-      setTimeout(()=>window.open('https://wa.me/?text='+encodeURIComponent('Meus horários Ter. a Sáb. 💖'),'_blank'),800);
+      setTimeout(()=>{ URL.revokeObjectURL(blobUrl); window.open('https://wa.me/?text='+encodeURIComponent('Meus horários Ter. a Sáb. 💖'),'_blank'); },800);
     }
   }catch(e){ if(e.name!=='AbortError') alert('Erro: '+e.message); } finally{b.disabled=false; b.textContent='📲 Compartilhar WhatsApp';}
 }
